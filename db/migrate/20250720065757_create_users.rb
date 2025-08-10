@@ -6,7 +6,8 @@ class CreateUsers < ActiveRecord::Migration[8.0]
       t.string :username
       t.string :password_digest
       t.string :api_token, index: { unique: true }
-
+      t.datetime :api_token_expires_at
+      
       t.timestamps
     end
   end

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_secure_token :api_token
   
   has_one :profile, dependent: :destroy
+  has_many :notifications
 
   # --- Validations ---
   # These are application-level rules that are checked before saving a user.
@@ -29,7 +30,5 @@ class User < ApplicationRecord
   # This line adds all the password hashing and authentication logic.
   # It requires the 'bcrypt' gem and a 'password_digest' column.
   has_secure_password
-
-  has_one :profile, dependent: :destroy
 
 end

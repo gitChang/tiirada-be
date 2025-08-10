@@ -6,6 +6,12 @@ class Api::V1::ProfilesController < ApplicationController
     if current_user.profile
       # Update existing profile
       if current_user.profile.update(profile_params)
+        # Use the build_more_info method to 
+        # update an associated record
+        primary_service = current_user.profile.primary_service # primary service offered
+        current_user.profile.more_info.update(active_service: primary_service)
+
+
         render json: {
           message: 'Profile updated successfully',
         }, status: :created
@@ -17,6 +23,12 @@ class Api::V1::ProfilesController < ApplicationController
       @new_profile = current_user.build_profile(profile_params)
 
       if @new_profile.save
+        # Use the build_more_info method
+        primary_service = @new_profile.primary_service # primary service offered
+        more_info = @new_profile.build_more_info(active_service: primary_service)
+
+        more_info.save
+
         render json: {
           message: 'Profile created successfully',
         }, status: :created
@@ -51,7 +63,7 @@ class Api::V1::ProfilesController < ApplicationController
     params.require(:profile).permit(
       :last_name, :first_name, :middle_name, :birth_date, 
       :sex, :province, :town, :barangay, :street,  
-      :service_1, :service_2, :service_3, 
+      :primary_service, :secondary_service, :tertiary_service, 
       :photo
     )
   end

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tirador_id: 1
+  service_title: MyString
+  hired_by_id: 1
+
+two:
+  tirador_id: 1
+  service_title: MyString
+  hired_by_id: 1

@@ -5,15 +5,18 @@ class CreateProfiles < ActiveRecord::Migration[8.0]
       t.string :last_name
       t.string :first_name
       t.string :middle_name
+
       t.date :birth_date
       t.string :sex
+
       t.string :province
       t.string :town
       t.string :barangay
       t.string :street
-      t.string :service_1
-      t.string :service_2
-      t.string :service_3
+      
+      t.string :primary_service
+      t.string :secondary_service
+      t.string :tertiary_service
 
       t.timestamps
     end

@@ -1,8 +1,12 @@
 class Profile < ApplicationRecord
   belongs_to :user
   has_one_attached :photo
+  has_one :more_info
+  has_many :reviews
 
   # Presence validations
+  validate :acceptable_image
+
   validates :last_name, :first_name, :birth_date, :sex,
             :province, :town, :barangay, :street,
             presence: true
@@ -22,6 +26,20 @@ class Profile < ApplicationRecord
   end
 
   private
+
+  def acceptable_image
+    return unless photo.attached?
+
+    # Validate file size (5MB limit)
+    if photo.blob.byte_size > 5.megabytes
+      errors.add(:photo, "is too large. Maximum size is 5MB.")
+    end
+
+    # Validate content type
+    unless photo.content_type.in?(%w(image/jpeg image/png))
+      errors.add(:photo, "must be a JPG or PNG file.")
+    end
+  end  
 
   def birth_date_cannot_be_in_the_future
     if birth_date.present? && birth_date > Date.today

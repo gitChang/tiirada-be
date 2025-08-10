@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333333;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 30px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+      h1 {
+        color: #007bff;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin: 15px 0;
+      }
+      strong {
+        color: #000000;
+      }
+      .footer {
+        font-size: 14px;
+        color: #777777;
+        margin-top: 40px;
+        border-top: 1px solid #e0e0e0;
+        padding-top: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Congratulations, <%= @tirador.profile.first_name.strip %>!</h1>
+
+      <p>You have received a new hiring request from <strong><%= @client_name %></strong>.</p>
+
+      <p>Job Title: <strong><%= @tirador.profile.more_info.active_service %></strong></p>
+
+      <p>You can contact the client directly at: <strong><%= @client_mobile %></strong>.</p>
+
+      <p>We wish you the best of luck with your new Tirada!</p>
+
+      <div class="footer">
+        <p>Best regards,<br/>
+        The Tiirada Team</p>
+      </div>
+    </div>
+  </body>
+</html>

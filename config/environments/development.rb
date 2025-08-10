@@ -3,10 +3,28 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Manually added by Dev.
   # Set default URL options for routes --modified
   Rails.application.routes.default_url_options[:host] = 'http://192.168.43.13:3000'
   # Allow requests from this host
   config.hosts << "192.168.43.13"
+
+  # If you just want to see them in ActionMailer::Base.deliveries without sending for real:
+  # config.action_mailer.delivery_method = :test
+ 
+  # Config to actually send using Gmail SMTP
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true  
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "gmail.com",
+    user_name: "whchaz1027@gmail.com",
+    password: "zotv yzxr ipta ygin",
+    authentication: :plain,
+    enable_starttls_auto: true
+  }
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
