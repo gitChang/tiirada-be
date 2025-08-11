@@ -5,9 +5,10 @@ Rails.application.configure do
 
   # Manually added by Dev.
   # Set default URL options for routes --modified
-  Rails.application.routes.default_url_options[:host] = 'http://192.168.43.13:3000'
+  Rails.application.routes.default_url_options[:host] = 'http://192.168.137.1:3000'
+  
   # Allow requests from this host
-  config.hosts << "192.168.43.13"
+  config.hosts << "192.168.137.1"
 
   # If you just want to see them in ActionMailer::Base.deliveries without sending for real:
   # config.action_mailer.delivery_method = :test
@@ -85,11 +86,12 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   config.action_cable.disable_request_forgery_protection = true
   
-  config.action_cable.url = "ws://10.0.2.2:3000/cable"
+  config.action_cable.url = "ws://192.168.137.1:3000/cable" # "ws://10.0.2.2:3000/cable"
 
   config.action_cable.allowed_request_origins = [
     "http://10.0.2.2:3000",
     "http://localhost:3000",
+    "http://192.168.137.1:3000", 
   ]
 
 
