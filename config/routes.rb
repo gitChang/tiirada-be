@@ -15,7 +15,8 @@ Rails.application.routes.draw do
       get 'tiradors/id/:tirador_id', to: 'tiradors#show'
 
       post 'hire_tirador', to: 'hirings#create'
-      get 'hirings/:id', to: 'hirings#show'
+
+      get 'notifications/:user_id', to: 'notifications#index'
     end
   end
 end

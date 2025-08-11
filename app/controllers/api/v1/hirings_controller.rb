@@ -9,6 +9,8 @@ class Api::V1::HiringsController < ApplicationController
     ).call
 
     if hiring.persisted?
+      hiring.tirador.profile.update(hired: true)
+
       render json: { message: "Tirador hired and notified." }, status: :created
     else
       render json: { errors: hiring.errors.full_messages }, status: :unprocessable_entity

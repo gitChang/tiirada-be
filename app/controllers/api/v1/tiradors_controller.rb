@@ -36,12 +36,12 @@ class Api::V1::TiradorsController < ApplicationController
                      .find_by(id: params[:tirador_id])
 
     if tirador      
-      profile_json = tirador.as_json.merge(
+      tirador_json = tirador.as_json.merge(
         photo_url: tirador.photo.attached? ? url_for(tirador.photo) : nil
       )
 
       if tirador.more_info.present?
-        profile_json.merge!(
+        tirador_json.merge!(
           mobile_number: tirador.user.mobile_number,
           active_service: tirador.more_info.active_service,
           is_verified: tirador.more_info.is_verified,
@@ -50,7 +50,7 @@ class Api::V1::TiradorsController < ApplicationController
       end
 
       render json: {
-        profile: profile_json,
+        tirador: tirador_json,
         reviews: tirador.reviews.as_json(only: [:id, :rating, :comment, :reviewer_name, :created_at])
       }, status: :ok
     else      
