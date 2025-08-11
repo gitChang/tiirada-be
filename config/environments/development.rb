@@ -9,6 +9,12 @@ Rails.application.configure do
   
   # Allow requests from this host
   config.hosts << "192.168.137.1"
+  config.action_cable.url = "ws://192.168.137.1:3000/cable" # "ws://10.0.2.2:3000/cable"
+  config.action_cable.allowed_request_origins = [
+    "http://10.0.2.2:3000",
+    "http://localhost:3000",
+    "http://192.168.137.1:3000", 
+  ]
 
   # If you just want to see them in ActionMailer::Base.deliveries without sending for real:
   # config.action_mailer.delivery_method = :test
@@ -86,15 +92,6 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   config.action_cable.disable_request_forgery_protection = true
   
-  config.action_cable.url = "ws://192.168.137.1:3000/cable" # "ws://10.0.2.2:3000/cable"
-
-  config.action_cable.allowed_request_origins = [
-    "http://10.0.2.2:3000",
-    "http://localhost:3000",
-    "http://192.168.137.1:3000", 
-  ]
-
-
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 
