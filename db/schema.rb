@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_10_111831) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_150234) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -40,9 +40,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_111831) do
   end
 
   create_table "hirings", force: :cascade do |t|
-    t.integer "tirador_id"
-    t.string "service_title"
     t.integer "hired_by_id"
+    t.string "service_request"
+    t.integer "tirador_id"
+    t.boolean "confirmed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["hired_by_id"], name: "index_hirings_on_hired_by_id"
@@ -54,19 +55,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_111831) do
     t.string "active_service"
     t.boolean "is_verified", default: false
     t.float "average_rating", default: 0.0
+    t.boolean "is_hired", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["profile_id"], name: "index_more_infos_on_profile_id"
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.integer "tirador_id"
+    t.integer "hired_by_id"
     t.string "title"
     t.text "message"
     t.boolean "read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_notifications_on_user_id"
+    t.index ["hired_by_id"], name: "index_notifications_on_hired_by_id"
+    t.index ["tirador_id"], name: "index_notifications_on_tirador_id"
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -80,23 +84,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_111831) do
     t.string "town"
     t.string "barangay"
     t.string "street"
+    t.string "current_location"
     t.string "primary_service"
     t.string "secondary_service"
     t.string "tertiary_service"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "hired", default: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.integer "profile_id", null: false
+    t.integer "tirador_id"
+    t.integer "client_id"
     t.integer "rating"
     t.text "comment"
-    t.string "reviewer_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["profile_id"], name: "index_reviews_on_profile_id"
+    t.index ["client_id"], name: "index_reviews_on_client_id"
+    t.index ["tirador_id"], name: "index_reviews_on_tirador_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -115,7 +120,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_10_111831) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "more_infos", "profiles"
-  add_foreign_key "notifications", "users"
   add_foreign_key "profiles", "users"
-  add_foreign_key "reviews", "profiles"
 end

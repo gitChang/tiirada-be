@@ -13,6 +13,8 @@ class CreateProfiles < ActiveRecord::Migration[8.0]
       t.string :town
       t.string :barangay
       t.string :street
+
+      t.string :current_location
       
       t.string :primary_service
       t.string :secondary_service

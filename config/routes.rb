@@ -8,15 +8,15 @@ Rails.application.routes.draw do
 
       get 'home', to: 'home#index'
 
-      post 'create_profile', to: 'profiles#create' 
+      post 'profile/create/', to: 'profiles#create' 
       get 'profile', to: 'profiles#show' 
       
-      get 'tiradors/:service_title', to: 'tiradors#index'
-      get 'tiradors/id/:tirador_id', to: 'tiradors#show'
+      get 'tiradors/service/:service_request', to: 'tiradors#index'
+      get 'tirador/:tirador_id', to: 'tiradors#show'
+      post 'tirador/request_service/', to: 'hirings#create'
 
-      post 'hire_tirador', to: 'hirings#create'
-
-      get 'notifications/:user_id', to: 'notifications#index'
+      get 'notifications', to: 'notifications#index'
+      get 'notification/:id', to: 'notifications#show'
     end
   end
 end

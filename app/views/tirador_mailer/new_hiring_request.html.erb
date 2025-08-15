@@ -43,11 +43,11 @@
   </head>
   <body>
     <div class="container">
-      <h1>Congratulations, <%= @tirador.profile.first_name.strip %>!</h1>
+      <h2>Congratulations, <%= @tirador.profile.first_name.strip %>!</h2>
 
-      <p>You have received a new hiring request from <strong><%= @client_name %></strong>.</p>
+      <p>You have received a new service request from <strong><%= @client_name %></strong>.</p>
 
-      <p>Job Title: <strong><%= @tirador.profile.more_info.active_service %></strong></p>
+      <p>Job Title: <strong><%= @service_request %></strong></p>
 
       <p>You can contact the client directly at: <strong><%= @client_mobile %></strong>.</p>
 

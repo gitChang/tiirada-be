@@ -31,7 +31,7 @@ class Api::V1::SessionsController < ApplicationController
       render json: {
         message: 'Login successful!',
         token: user.api_token,
-        client_id: user.id, # Client or Tirador
+        user_id: user.id.to_s,
       }, status: :created # 201
     else
       # Failed authentication

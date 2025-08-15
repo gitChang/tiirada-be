@@ -1,10 +1,10 @@
 class Profile < ApplicationRecord
   belongs_to :user
-  has_one_attached :photo
-  has_one :more_info
-  has_many :reviews
 
-  # Presence validations
+  has_one_attached :photo
+  
+  has_one :more_info
+
   validate :acceptable_image
 
   validates :last_name, :first_name, :birth_date, :sex,
@@ -20,6 +20,11 @@ class Profile < ApplicationRecord
   # Custom validation example (optional)
   validate :birth_date_cannot_be_in_the_future
 
+  scope :exclude_me, ->(current_user_id) { where.not(user_id: current_user_id) }
+
+  scope :tiradors, ->(service_title) {
+    includes(:more_info).where(more_infos: { active_service: service_title })
+  }
 
   def photo_url
     Rails.application.routes.url_helpers.url_for(photo) if photo.attached?

@@ -3,10 +3,8 @@ class Api::V1::TiradorsController < ApplicationController
   before_action :require_user_to_be_signed_in
 
   def index
-    service_title = params[:service_title]
-
     # Eager-load the 'more_info' association and filter by its 'active_service' column
-    tiradors = Profile.includes(:more_info).where(more_infos: { active_service: service_title })
+    tiradors = Profile.tiradors(params[:service_request]).exclude_me(current_user.id)
 
     render json: {
       tiradors: tiradors.map do |profile|
@@ -32,8 +30,7 @@ class Api::V1::TiradorsController < ApplicationController
   end
 
   def show
-    tirador = Profile.includes(:more_info, :reviews)
-                     .find_by(id: params[:tirador_id])
+    tirador = Profile.find_by(id: params[:tirador_id])
 
     if tirador      
       tirador_json = tirador.as_json.merge(
@@ -45,13 +42,14 @@ class Api::V1::TiradorsController < ApplicationController
           mobile_number: tirador.user.mobile_number,
           active_service: tirador.more_info.active_service,
           is_verified: tirador.more_info.is_verified,
-          average_rating: tirador.more_info.average_rating
+          average_rating: tirador.more_info.average_rating,
+          is_hired: tirador.more_info.is_hired,
         )
       end
 
       render json: {
         tirador: tirador_json,
-        reviews: tirador.reviews.as_json(only: [:id, :rating, :comment, :reviewer_name, :created_at])
+        reviews: tirador.user.reviews_as_tirador.as_json(only: [:id, :rating, :comment, :created_at])
       }, status: :ok
     else      
       render json: { error: 'Tirador not found' }, status: :not_found

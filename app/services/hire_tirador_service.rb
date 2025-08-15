@@ -1,28 +1,35 @@
 class HireTiradorService
-  def initialize(tirador_id, service_title, hired_by_id)
+  def initialize(client, service_request, tirador_id)  
+    @client = client.profile
+    @service_request = service_request
     @tirador_id = tirador_id
-    @service_title = service_title
-    @hired_by_id = hired_by_id
 
-    @hirer = User.find(hired_by_id).profile
-    @title = "New Hiring Request: #{service_title}"
-    @client_full_name = "#{@hirer.first_name} #{@hirer.last_name}"
+    @title = "New Service Request: #{@service_request}"
+    @client_full_name = "#{@client.first_name} #{@client.last_name}"
   end
 
   def call
     hiring = Hiring.create(
+      hired_by_id: @client.user_id,
+      service_request: @service_request,
       tirador_id: @tirador_id,
-      service_title: @service_title,
-      hired_by_id: @hired_by_id
     )
 
-    if hiring.persisted?
+    # Save in Notification
+    notified = Notification.create(
+      tirador_id: @tirador_id, 
+      hired_by_id: @client.user_id,
+      title: @title, 
+      message: "Your client #{@client_full_name} is in need of #{@service_request} service."
+    )
+
+    if hiring.persisted? && notified.persisted?
       NotificationJob.perform_async(
         @tirador_id, 
         @title, 
-        @service_title, 
+        @service_request, 
         @client_full_name, 
-        @hirer.user.mobile_number
+        @client.user.mobile_number
       )
     end
 
