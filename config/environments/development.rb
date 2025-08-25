@@ -6,29 +6,29 @@ Rails.application.configure do
   # Manually added by Dev.
   # Set default URL options for routes --modified
   Rails.application.routes.default_url_options[:host] = 'http://192.168.137.1:3000'
-  
+
   # Allow requests from this host
   config.hosts << "192.168.137.1"
   config.action_cable.url = "ws://192.168.137.1:3000/cable" # "ws://10.0.2.2:3000/cable"
   config.action_cable.allowed_request_origins = [
     "http://10.0.2.2:3000",
     "http://localhost:3000",
-    "http://192.168.137.1:3000", 
+    "http://192.168.137.1:3000",
   ]
 
   # If you just want to see them in ActionMailer::Base.deliveries without sending for real:
   # config.action_mailer.delivery_method = :test
- 
+
   # Config to actually send using Gmail SMTP
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true  
+  config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
     domain: "gmail.com",
-    user_name: "whchaz1027@gmail.com",
-    password: "zotv yzxr ipta ygin",
+    user_name: ENV['GMAIL_SMTP_USERNAME'],
+    password: ENV['GMAIL_SMTP_PASSWORD'],
     authentication: :plain,
     enable_starttls_auto: true
   }
@@ -91,7 +91,7 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   config.action_cable.disable_request_forgery_protection = true
-  
+
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 

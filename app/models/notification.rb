@@ -21,5 +21,15 @@ class Notification < ApplicationRecord
         message: message,
       }
     )
+
+    # FCM push notification for background/closed apps
+    FcmService.send_notification_to_user(
+      tirador,
+      {
+        id: id,
+        title: title,
+        message: message
+      }
+    )
   end
 end

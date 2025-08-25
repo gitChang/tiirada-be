@@ -44,8 +44,17 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  
+  # Via ChatGPT instruction
+  gem 'rubocop', require: false
+  
+  # .env to work
+  gem 'dotenv-rails'
 end
 
 # Added manually
 gem 'sidekiq'
 gem 'redis' # Sidekiq requires a Redis database
+
+# FCM: Google Firebase
+gem 'fcm'

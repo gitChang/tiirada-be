@@ -1,7 +1,16 @@
 class Api::V1::SessionsController < ApplicationController
   # The `destroy` action will require an authenticated user.
   # We use `only` so the `create` (login) action remains public.
-  before_action :require_user_to_be_signed_in, only: [:destroy]
+  before_action :require_user_to_be_signed_in, only: [:destroy, :update_fcm_token]
+
+  
+  def update_fcm_token
+    if current_user.update(fcm_token: params[:token])
+      render json: { message: 'FCM token updated successfully.' }, status: :ok
+    else
+      render json: { error: 'Failed to update FCM token.' }, status: :unprocessable_entity
+    end
+  end
 
   def create
     # The client will send a generic `login` parameter.
